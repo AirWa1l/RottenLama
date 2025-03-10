@@ -26,7 +26,11 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'  # Reemplaza con tu versión si usas otra
+          node-version: '22'
+
+      # 🔄 Cambia el directorio si el package.json está en RottenLama/RottenLama
+      - name: Change to project directory
+        run: cd Desarrollo2
 
       # 3. Install dependencies
       - name: Install dependencies
