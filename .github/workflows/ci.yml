@@ -18,46 +18,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Check out the code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Setup Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '22'
 
-      # 🔄 Cambia el directorio si el package.json está en RottenLama/RottenLama
+      # 🔄 Cambia al directorio correcto antes de instalar dependencias
       - name: Change to project directory
-        run: cd Desarrollo2
+        run: cd Desarrollo2 && npm install
 
-      # 3. Install dependencies
-      - name: Install dependencies
-        run: npm install
-
-      # 4. Run tests
       - name: Run tests
-        run: npm test
-        continue-on-error: true  # Evita que falle el pipeline si no hay pruebas
+        run: cd Desarrollo2 && npm test
+        continue-on-error: true
 
-      # 5. Build the project
       - name: Build project
-        run: npm run build
+        run: cd Desarrollo2 && npm run build
 
-      # 6. Upload build artifacts
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build
-          path: dist
-
-      # 7. Deploy to Production
-      - name: Deploy to Production
-        if: github.ref == 'refs/heads/main'
-        run: echo "🚀 Desplegando a producción..."
-
-      # 8. Deploy to Staging
-      - name: Deploy to Staging
-        if: github.ref == 'refs/heads/pre-production'
-        run: echo "🚀 Desplegando a pre-producción..."
+          path: Desarrollo2/dist
